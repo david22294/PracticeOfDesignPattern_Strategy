@@ -8,13 +8,13 @@ using namespace std;
 class Duck
 {
 public:
-    unique_ptr<FlyBehavior> flyBehavior;
-    unique_ptr<QuackBehavior> quackBehavior;
+    FlyBehavior* flyBehavior;
+    QuackBehavior* quackBehavior;
 
     virtual void display(){}
 
-    virtual void setFlyBehavior(unique_ptr<FlyBehavior> fb){}
-    virtual void setQuackBehavior(unique_ptr<QuackBehavior> qb){}
+    virtual void setFlyBehavior(FlyBehavior* fb){}
+    virtual void setQuackBehavior(QuackBehavior* qb){}
 
     virtual void performFly(){}
     virtual void performQuack(){}
@@ -25,13 +25,21 @@ class ModelDuck: public Duck
 public:
     ModelDuck()
     {
-        flyBehavior = unique_ptr<FlyBehavior>(new FlyNoWay());
-        quackBehavior = unique_ptr<QuackBehavior>(new MuteQuackBehavior());
+        flyBehavior = new FlyNoWay();
+        quackBehavior = new MuteQuackBehavior();
     }
 
     ~ModelDuck()
     {
+        if(flyBehavior){
+            delete flyBehavior;
+            flyBehavior = NULL;
+        }
 
+        if(quackBehavior){
+            delete quackBehavior;
+            quackBehavior = NULL;
+        }
     }
 
     void display()
@@ -39,13 +47,21 @@ public:
         printf("Hi, I'm Model Duck.");
     }
 
-    void setFlyBehavior(unique_ptr<FlyBehavior> fb)
+    void setFlyBehavior(FlyBehavior* fb)
     {
-        flyBehavior = move(fb);
+        if(flyBehavior){
+            delete flyBehavior;
+            flyBehavior = NULL;
+        }
+        flyBehavior = fb;
     }
-    void setQuackBehavior(unique_ptr<QuackBehavior> qb)
+    void setQuackBehavior(QuackBehavior* qb)
     {
-        quackBehavior = move(qb);
+        if(quackBehavior){
+            delete quackBehavior;
+            quackBehavior = NULL;
+        }
+        quackBehavior = qb;
     }
 
 

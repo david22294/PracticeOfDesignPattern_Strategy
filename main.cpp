@@ -8,8 +8,8 @@ int main()
     modelDuck->performFly();
     modelDuck->performQuack();
 
-    modelDuck->setFlyBehavior(unique_ptr<FlyBehavior>(new FlyWithWings()));
-    modelDuck->setQuackBehavior(unique_ptr<QuackBehavior>(new Quack()));
+    modelDuck->setFlyBehavior(new FlyWithWings());
+    modelDuck->setQuackBehavior(new Quack());
 
     modelDuck->performFly();
     modelDuck->performQuack();
